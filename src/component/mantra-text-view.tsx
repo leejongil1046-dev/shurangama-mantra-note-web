@@ -3,6 +3,7 @@ import type { Mantra, RenderLineInfo } from "@/types/mantra";
 
 export type MantraTextViewProps = {
   mantra: Mantra;
+  blankIndices?: Set<number>;
   charBoxWidth?: number;
   charBoxHeight?: number;
   fontSize?: number;
@@ -11,6 +12,7 @@ export type MantraTextViewProps = {
 
 export default function MantraTextView({
   mantra,
+  blankIndices = new Set<number>(),
   charBoxWidth = 24,
   charBoxHeight = 26,
   fontSize = 20,
@@ -25,6 +27,22 @@ export default function MantraTextView({
 
     const elements = lineChars.map((char, i) => {
       const globalIndex = startIndex + i;
+
+      if (blankIndices.has(globalIndex)) {
+        return (
+          <div
+            key={globalIndex}
+            className="flex items-center justify-center"
+            style={{
+              width: charBoxWidth,
+              height: charBoxHeight,
+              border: "1px solid #555",
+              borderRadius: 2,
+              boxSizing: "border-box",
+            }}
+          />
+        );
+      }
 
       return (
         <div
