@@ -1,0 +1,51 @@
+import { getIndentPx, getLinesForRender } from "@/lib/mantra-format";
+import type { Mantra, RenderLineInfo } from "@/types/mantra";
+
+export type MantraTextViewProps = {
+  mantra: Mantra;
+  charBoxWidth?: number;
+  charBoxHeight?: number;
+  fontSize?: number;
+  marginBottom?: number;
+};
+
+export default function MantraTextView({
+  mantra,
+  charBoxWidth = 24,
+  charBoxHeight = 26,
+  fontSize = 20,
+  marginBottom = 10,
+}: MantraTextViewProps) {
+  const lines = getLinesForRender(mantra);
+
+  const renderLine = (lineInfo: RenderLineInfo, lineKey: number) => {
+    const { line, indent, startIndex } = lineInfo;
+    const lineChars = line.split("");
+    const paddingLeft = getIndentPx(indent, charBoxWidth);
+
+    const elements = lineChars.map((char, i) => {
+      const globalIndex = startIndex + i;
+
+      return (
+        <div
+          key={globalIndex}
+          className="flex items-center justify-center"
+          style={{
+            width: charBoxWidth,
+            height: charBoxHeight,
+          }}
+        >
+          <span style={{ fontSize }}>{char}</span>
+        </div>
+      );
+    });
+
+    return (
+      <div key={lineKey} className="flex" style={{ paddingLeft, marginBottom }}>
+        {elements}
+      </div>
+    );
+  };
+
+  return <div>{lines.map(renderLine)}</div>;
+}
