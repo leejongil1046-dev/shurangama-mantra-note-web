@@ -1,15 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import MantraTextView from "@/component/mantra-text-view";
 import ToggleSwitch from "@/component/toggle-switch";
 import { SHURANGAMA_MANTRA_PAGES } from "@/data/shurangama-mantra";
 import { createBlankIndices } from "@/lib/blanks";
 import { usePagination } from "@/hooks/use-pagination";
+import { useSettingStore } from "@/store/setting-store";
 
 type BlankByPage = Record<number, Set<number>>;
 
+const difficultyToRatio = {
+  easy: 0.1,
+  medium: 0.3,
+  hard: 0.5,
+} as const;
+
 export default function PracticePage() {
+  const { pageStart, pageEnd, difficulty } = useSettingStore();
+  const ratio = difficultyToRatio[difficulty];
+
+  const selectedPages = useMemo(
+    () => SHURANGAMA_MANTRA_PAGES.slice(pageStart - 1, pageEnd),
+    [pageStart, pageEnd],
+  );
+
   const [showBlanks, setShowBlanks] = useState(false);
   const [blankByPage, setBlankByPage] = useState<BlankByPage>({});
 
@@ -21,9 +36,8 @@ export default function PracticePage() {
     isLast,
     goPrev,
     goNext,
-    goTo,
   } = usePagination({
-    items: SHURANGAMA_MANTRA_PAGES,
+    items: selectedPages,
   });
 
   const currentBlankIndices = blankByPage[currentIndex] ?? new Set<number>();
@@ -32,8 +46,8 @@ export default function PracticePage() {
     if (nextChecked && Object.keys(blankByPage).length === 0) {
       const nextBlankByPage: BlankByPage = {};
 
-      SHURANGAMA_MANTRA_PAGES.forEach((page, index) => {
-        nextBlankByPage[index] = createBlankIndices(page.mantra);
+      selectedPages.forEach((page, index) => {
+        nextBlankByPage[index] = createBlankIndices(page.mantra, ratio);
       });
 
       setBlankByPage(nextBlankByPage);
@@ -45,7 +59,7 @@ export default function PracticePage() {
   if (!currentPage) return null;
 
   return (
-    <div className="w-[1000px] mx-auto h-full">
+    <div className="mx-auto h-full w-[1000px]">
       <section className="flex h-full min-w-0 flex-col overflow-hidden pb-5">
         <div className="flex items-center justify-between p-4">
           <ToggleSwitch

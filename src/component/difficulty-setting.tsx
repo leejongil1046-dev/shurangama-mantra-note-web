@@ -32,7 +32,7 @@ export default function DifficultySetting({
               key={opt.value}
               type="button"
               onClick={() => onChange(opt.value)}
-              className={`flex h-10 w-16 items-center justify-center rounded-md border text-sm transition-colors cursor-pointer ${
+              className={`flex h-10 w-16 items-center justify-center rounded-md border text-md transition-colors cursor-pointer ${
                 isActive
                   ? "border-gray-900 bg-gray-900 text-white"
                   : "border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
