@@ -3,7 +3,6 @@
 import { useState } from "react";
 import MantraTextView from "@/component/mantra-text-view";
 import ToggleSwitch from "@/component/toggle-switch";
-import PageNavigation from "@/component/page-navigation";
 import { SHURANGAMA_MANTRA_PAGES } from "@/data/shurangama-mantra";
 import { createBlankIndices } from "@/lib/blanks";
 import { usePagination } from "@/hooks/use-pagination";
