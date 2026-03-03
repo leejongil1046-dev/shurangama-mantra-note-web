@@ -33,3 +33,7 @@ body {
 .font-mantra {
   font-family: var(--font-noto-serif-kr), "Noto Serif KR", serif;
 }
+
+html {
+  scrollbar-gutter: stable;
+}
