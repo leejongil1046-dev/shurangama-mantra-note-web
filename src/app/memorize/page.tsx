@@ -1,16 +1,14 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MantraTextView from "@/component/mantra-text-view";
-import ToggleSwitch from "@/component/toggle-switch";
 import { SHURANGAMA_MANTRA_PAGES } from "@/data/shurangama-mantra";
 import { createBlankIndices } from "@/lib/blanks";
 import { usePagination } from "@/hooks/use-pagination";
 import { useSettingStore } from "@/store/setting-store";
+import { useMemorizeStore } from "@/store/memorize-store";
 import Image from "next/image";
 import SettingModal from "@/component/setting-modal";
-
-type BlankByPage = Record<number, Set<number>>;
 
 const difficultyToRatio = {
   easy: 0.1,
@@ -28,6 +26,21 @@ export default function MemorizePage() {
   );
 
   const {
+    isActive,
+    blankByPage,
+    answersByPage,
+    lastPageIndex,
+    startSession,
+    setAnswer,
+    setLastPageIndex,
+    resetSession,
+  } = useMemorizeStore();
+
+  const initialIndex = isActive
+    ? Math.min(lastPageIndex, Math.max(selectedPages.length - 1, 0))
+    : 0;
+
+  const {
     currentIndex,
     currentItem: currentPage,
     isFirst,
@@ -36,39 +49,43 @@ export default function MemorizePage() {
     goNext,
   } = usePagination({
     items: selectedPages,
+    initialIndex,
   });
 
-  const [showBlanks, setShowBlanks] = useState(false);
-  const [blankByPage, setBlankByPage] = useState<BlankByPage>({});
   const [isSettingOpen, setIsSettingOpen] = useState(false);
-  const [answersByPage, setAnswersByPage] = useState<
-    Record<number, Record<number, string>>
-  >({});
 
   const currentAnswers = answersByPage[currentIndex] ?? {};
 
   const handleChangeAnswer = (index: number, value: string) => {
-    setAnswersByPage((prev) => ({
-      ...prev,
-      [currentIndex]: { ...(prev[currentIndex] ?? {}), [index]: value },
-    }));
+    setAnswer(currentIndex, index, value);
   };
 
-  const currentBlankIndices = blankByPage[currentIndex] ?? new Set<number>();
+  const currentBlankIndicesArray = blankByPage[currentIndex] ?? [];
+  const currentBlankIndices = new Set<number>(currentBlankIndicesArray);
 
-  const handleToggleBlanks = (nextChecked: boolean) => {
-    if (nextChecked && Object.keys(blankByPage).length === 0) {
-      const nextBlankByPage: BlankByPage = {};
+  const handleStartMemorize = () => {
+    const nextBlankByPage: Record<number, number[]> = {};
 
-      selectedPages.forEach((page, index) => {
-        nextBlankByPage[index] = createBlankIndices(page.mantra, ratio);
-      });
+    selectedPages.forEach((page, index) => {
+      const indices = createBlankIndices(page.mantra, ratio);
+      nextBlankByPage[index] = Array.from(indices);
+    });
 
-      setBlankByPage(nextBlankByPage);
+    startSession({
+      blankByPage: nextBlankByPage,
+      initialPageIndex: currentIndex,
+    });
+  };
+
+  const handleFinishMemorize = () => {
+    resetSession();
+  };
+
+  useEffect(() => {
+    if (isActive) {
+      setLastPageIndex(currentIndex);
     }
-
-    setShowBlanks(nextChecked);
-  };
+  }, [currentIndex, isActive, setLastPageIndex]);
 
   if (!currentPage) return null;
 
@@ -78,12 +95,33 @@ export default function MemorizePage() {
     <div className="mx-auto h-full w-[1000px]">
       <section className="flex w-full h-full min-w-0 flex-col overflow-hidden pr-5 pl-5 pb-5">
         <div className="flex items-center justify-between p-4">
-          <div className="flex flex-row justify-start gap-5 w-[150px]">
-            <ToggleSwitch
-              label="빈칸"
-              checked={showBlanks}
-              onChange={handleToggleBlanks}
-            />
+          <div className="flex flex-row justify-start gap-3 w-[200px]">
+            {hasHydrated &&
+              (!isActive ? (
+                <button
+                  type="button"
+                  onClick={handleStartMemorize}
+                  className="rounded border px-3 py-1 text-sm hover:bg-gray-100"
+                >
+                  암기 시작
+                </button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="rounded border px-3 py-1 text-sm hover:bg-gray-100"
+                  >
+                    채점하기
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleFinishMemorize}
+                    className="rounded border px-3 py-1 text-sm hover:bg-gray-100"
+                  >
+                    종료하기
+                  </button>
+                </>
+              ))}
           </div>
 
           <div className="flex w-[150px] items-center justify-between">
@@ -124,7 +162,7 @@ export default function MemorizePage() {
             </button>
           </div>
 
-          <div className="flex w-[150px] items-center justify-end gap-3">
+          <div className="flex w-[200px] items-center justify-end gap-3">
             <button
               type="button"
               onClick={() => setIsSettingOpen(true)}
@@ -157,7 +195,7 @@ export default function MemorizePage() {
         >
           {hasHydrated ? (
             <div className="min-w-[800px]">
-              {showBlanks ? (
+              {isActive ? (
                 <MantraTextView
                   mantra={currentPage.mantra}
                   blankIndices={currentBlankIndices}

@@ -32,7 +32,6 @@ export default function PracticePage() {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   const {
-    currentIndex,
     currentItem: currentPage,
     isFirst,
     isLast,
@@ -42,7 +41,11 @@ export default function PracticePage() {
     items: selectedPages,
   });
 
-  const currentBlankIndices = blankByPage[currentIndex] ?? new Set<number>();
+  const currentBlankIndices =
+    blankByPage[
+      // usePagination 내부에서 관리하는 인덱스를 그대로 쓰기 위해
+      SHURANGAMA_MANTRA_PAGES.indexOf(currentPage!)
+    ] ?? new Set<number>();
 
   const handleToggleBlanks = (nextChecked: boolean) => {
     if (nextChecked && Object.keys(blankByPage).length === 0) {
