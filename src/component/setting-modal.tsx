@@ -3,6 +3,7 @@
 import PageRangeSetting from "@/component/page-range-setting";
 import DifficultySetting from "@/component/difficulty-setting";
 import { useSettingStore, type Difficulty } from "@/store/setting-store";
+import { useMemorizeStore } from "@/store/memorize-store";
 import { useMemo, useState } from "react";
 
 export type SettingMode = "practice" | "memorize";
@@ -27,6 +28,7 @@ export default function SettingModal({
   const setPracticeDifficulty = useSettingStore((s) => s.setPracticeDifficulty);
   const setMemorizePageRange = useSettingStore((s) => s.setMemorizePageRange);
   const setMemorizeDifficulty = useSettingStore((s) => s.setMemorizeDifficulty);
+  const resetMemorizeSession = useMemorizeStore((s) => s.resetSession);
 
   const [tempRange, setTempRange] = useState<[number, number]>([
     pageStart,
@@ -53,6 +55,7 @@ export default function SettingModal({
     } else {
       setMemorizePageRange(start, end);
       setMemorizeDifficulty(tempDifficulty);
+      resetMemorizeSession();
     }
     window.location.reload();
   };
