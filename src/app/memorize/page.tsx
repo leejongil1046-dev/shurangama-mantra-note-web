@@ -9,6 +9,7 @@ import { useSettingStore } from "@/store/setting-store";
 import { useMemorizeStore } from "@/store/memorize-store";
 import TopSettingButton from "@/component/top-setting-button";
 import PaginationControls from "@/component/pagination-controls";
+import PageRangeLegend from "@/component/page-range-legend";
 
 const difficultyToRatio = {
   easy: 0.1,
@@ -132,10 +133,14 @@ export default function MemorizePage() {
           <TopSettingButton mode="memorize" />
         </div>
 
-        <div
-          className="min-h-0 flex-1 overflow-auto rounded border border-gray-200 p-4"
-          style={{ backgroundAttachment: "local" }}
-        >
+        <div className="relative min-h-0 flex-1 overflow-auto rounded border border-gray-200 p-4">
+          {hasHydrated && (
+            <PageRangeLegend
+              pageStart={pageStart}
+              pageEnd={pageEnd}
+              difficulty={difficulty}
+            />
+          )}
           {hasHydrated ? (
             <div className="min-w-[800px]">
               {isActive ? (

@@ -5,6 +5,7 @@ import MantraTextView from "@/component/mantra-text-view";
 import ToggleSwitch from "@/component/toggle-switch";
 import PaginationControls from "@/component/pagination-controls";
 import TopSettingButton from "@/component/top-setting-button";
+import PageRangeLegend from "@/component/page-range-legend";
 import { SHURANGAMA_MANTRA_PAGES } from "@/data/shurangama-mantra";
 import { createBlankIndices } from "@/lib/blanks";
 import { usePagination } from "@/hooks/use-pagination";
@@ -83,10 +84,14 @@ export default function PracticePage() {
           <TopSettingButton mode="practice" />
         </div>
 
-        <div
-          className="min-h-0 flex-1 overflow-auto rounded border border-gray-200 p-4"
-          style={{ backgroundAttachment: "local" }}
-        >
+        <div className="relative min-h-0 flex-1 overflow-auto rounded border border-gray-200 p-4">
+          {hasHydrated && (
+            <PageRangeLegend
+              pageStart={pageStart}
+              pageEnd={pageEnd}
+              difficulty={difficulty}
+            />
+          )}
           {hasHydrated ? (
             <div className="min-w-[800px]">
               {showBlanks ? (
