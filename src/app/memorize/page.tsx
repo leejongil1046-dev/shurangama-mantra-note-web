@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MantraTextView from "@/component/mantra/mantra-text-view";
 import { SHURANGAMA_MANTRA_PAGES } from "@/data/shurangama-mantra";
 import { createBlankIndices, difficultyToRatio } from "@/lib/blanks";
@@ -11,6 +11,7 @@ import TopSettingButton from "@/component/layout/top-setting-button";
 import PaginationControls from "@/component/layout/pagination-controls";
 import PageRangeLegend from "@/component/settings/page-range-legend";
 import MemorizeActions from "@/component/memorize/memorize-actions";
+import ConfirmModal from "@/component/ui/confirm-modal";
 
 export default function MemorizePage() {
   const { memorize, hasHydrated } = useSettingStore();
@@ -73,13 +74,33 @@ export default function MemorizePage() {
     });
   };
 
-  const handleFinishMemorize = () => {
-    resetSession();
-  };
-
   const handleResetMemorize = () => {
     resetSession();
     setCurrentIndex(0);
+  };
+
+  const [isGradeConfirmOpen, setIsGradeConfirmOpen] = useState(false);
+
+  const { totalBlanks, filledCount } = useMemo(() => {
+    let total = 0;
+    let filled = 0;
+    Object.keys(blankByPage).forEach((key) => {
+      const pageIndex = Number(key);
+      const blanks = blankByPage[pageIndex]?.length ?? 0;
+      const answers = answersByPage[pageIndex] ?? {};
+      total += blanks;
+      filled += Object.keys(answers).length;
+    });
+    return { totalBlanks: total, filledCount: filled };
+  }, [blankByPage, answersByPage]);
+
+  const handleGradeClick = () => {
+    setIsGradeConfirmOpen(true);
+  };
+
+  const handleGradeConfirm = () => {
+    setIsGradeConfirmOpen(false);
+    // TODO: 실제 채점 및 결과 모달
   };
 
   useEffect(() => {
@@ -98,7 +119,7 @@ export default function MemorizePage() {
             hasHydrated={hasHydrated}
             isActive={isActive}
             onStart={handleStartMemorize}
-            onFinish={handleFinishMemorize}
+            onGrade={handleGradeClick}
           />
 
           <PaginationControls
@@ -110,6 +131,14 @@ export default function MemorizePage() {
           />
 
           <TopSettingButton mode="memorize" onReset={handleResetMemorize} />
+
+          <ConfirmModal
+            open={isGradeConfirmOpen}
+            mode="grade-with-blanks"
+            params={{ totalBlanks, filledCount }}
+            onConfirm={handleGradeConfirm}
+            onClose={() => setIsGradeConfirmOpen(false)}
+          />
         </div>
 
         <div className="relative min-h-0 flex-1 overflow-auto rounded border border-gray-200 p-4">

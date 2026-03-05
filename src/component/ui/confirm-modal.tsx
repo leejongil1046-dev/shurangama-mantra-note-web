@@ -1,12 +1,17 @@
 "use client";
 
-export type ConfirmMode = "reset-practice" | "reset-memorize";
+export type ConfirmMode =
+  | "reset-practice"
+  | "reset-memorize"
+  | "grade-with-blanks";
 
 type ConfirmModalProps = {
   open: boolean;
   mode: ConfirmMode;
   onConfirm: () => void;
   onClose: () => void;
+  /** 동적 문구용. description에 포함된 {key}를 params[key]로 치환합니다. */
+  params?: Record<string, string | number>;
 };
 
 const PRESET = {
@@ -24,17 +29,39 @@ const PRESET = {
     confirmLabel: "초기화",
     cancelLabel: "취소",
   },
+  "grade-with-blanks": {
+    title: "채점하시겠습니까?",
+    description:
+      "총 {totalBlanks}개의 빈칸 중 {filledCount}개를 입력하셨습니다. 아직 입력하지 않은 빈칸이 남아있는데 채점하시겠습니까?",
+    confirmLabel: "채점하기",
+    cancelLabel: "취소",
+  },
 } as const;
+
+function applyParams(
+  template: string,
+  params?: Record<string, string | number>,
+): string {
+  if (!params) return template;
+  return Object.entries(params).reduce(
+    (acc, [key, value]) =>
+      acc.replace(new RegExp(`\\{${key}\\}`, "g"), String(value)),
+    template,
+  );
+}
 
 export default function ConfirmModal({
   open,
   mode,
   onConfirm,
   onClose,
+  params,
 }: ConfirmModalProps) {
   if (!open) return null;
 
-  const { title, description, confirmLabel, cancelLabel } = PRESET[mode];
+  const preset = PRESET[mode];
+  const description = applyParams(preset.description, params);
+  const { title, confirmLabel, cancelLabel } = preset;
 
   const handleConfirm = () => {
     onConfirm();

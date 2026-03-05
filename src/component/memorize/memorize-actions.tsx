@@ -6,7 +6,6 @@ type MemorizeActionsProps = {
   isActive: boolean;
   onStart: () => void;
   onGrade?: () => void;
-  onFinish?: () => void;
 };
 
 export default function MemorizeActions({
@@ -14,18 +13,14 @@ export default function MemorizeActions({
   isActive,
   onStart,
   onGrade,
-  onFinish,
 }: MemorizeActionsProps) {
-  if (!hasHydrated) return <div className="flex flex-row justify-start gap-3 w-[200px]" />;
+  if (!hasHydrated)
+    return <div className="flex flex-row justify-start gap-3 w-[200px]" />;
 
   if (!isActive) {
     return (
       <div className="flex flex-row justify-start gap-3 w-[200px]">
-        <button
-          type="button"
-          onClick={onStart}
-          className={buttonClass}
-        >
+        <button type="button" onClick={onStart} className={buttonClass}>
           암기 시작
         </button>
       </div>
@@ -42,11 +37,6 @@ export default function MemorizeActions({
       >
         채점하기
       </button>
-      {onFinish && (
-        <button type="button" onClick={onFinish} className={buttonClass}>
-          종료하기
-        </button>
-      )}
     </div>
   );
 }
