@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Serif_KR } from "next/font/google";
 import "./globals.css";
 import MainNav from "@/component/layout/main-nav";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,10 +37,12 @@ export default function RootLayout({
       >
         <div className="flex min-h-screen flex-col min-w-[1000px]">
           <header className="flex h-35 items-center border-b border-gray-200 px-6">
-            <div className="mx-auto flex h-full items-center justify-cente">
-              <div className="font-mantra text-[45px] font-bold">
-                대불정수능엄신주
-              </div>
+            <div className="mx-auto flex h-full items-center justify-center">
+              <Link href="/">
+                <div className="font-mantra text-[45px] font-bold cursor-pointer">
+                  대불정수능엄신주
+                </div>
+              </Link>
             </div>
           </header>
 
