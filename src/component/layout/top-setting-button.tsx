@@ -36,6 +36,24 @@ export default function TopSettingButton({
         type="button"
         onClick={handleClickReset}
         className="flex h-[35px] w-[35px] items-center justify-center rounded cursor-pointer hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+        aria-label="글자_크기_확대"
+        disabled={!onReset}
+      >
+        <Image src="/icons/zoom_in.svg" alt="글자_크기_확대" width={30} height={30} />
+      </button>
+      <button
+        type="button"
+        onClick={handleClickReset}
+        className="flex h-[35px] w-[35px] items-center justify-center rounded cursor-pointer hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+        aria-label="글자_크기_축소"
+        disabled={!onReset}
+      >
+        <Image src="/icons/zoom_out.svg" alt="글자_크기_축소" width={30} height={30} />
+      </button>
+      <button
+        type="button"
+        onClick={handleClickReset}
+        className="flex h-[35px] w-[35px] items-center justify-center rounded cursor-pointer hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
         aria-label="초기화"
         disabled={!onReset}
       >
