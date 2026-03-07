@@ -71,7 +71,7 @@ export default function ConfirmModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-md rounded-md bg-white p-4 shadow-lg">
+      <div className="w-full max-w-md rounded-xl bg-white p-4 shadow-lg">
         <h2 className="text-xl font-semibold text-gray-900 p-2">{title}</h2>
         <div className="text-sm leading-relaxed text-gray-600 p-2">
           {description}
@@ -82,13 +82,11 @@ export default function ConfirmModal({
             label={cancelLabel}
             variant="cancel"
             onClick={onClose}
-            fontSize={12}
           />
           <ModalActionButton
             label={confirmLabel}
             variant="primary"
             onClick={handleConfirm}            
-            fontSize={12}
           />
         </div>
       </div>

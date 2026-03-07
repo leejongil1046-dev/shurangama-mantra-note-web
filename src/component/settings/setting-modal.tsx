@@ -63,7 +63,7 @@ export default function SettingModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-[800px] rounded-md bg-white p-4 shadow-lg">
+      <div className="w-full max-w-[800px] rounded-xl bg-white p-4 shadow-lg">
         <div className="flex items-center justify-between p-6">
           <h1 className="text-xl font-semibold">
             설정 {mode === "practice" ? "(연습하기)" : "(암기하기)"}

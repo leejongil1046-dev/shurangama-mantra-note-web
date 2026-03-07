@@ -35,7 +35,7 @@ export default function GradeResultModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-full max-w-lg rounded-md bg-white p-10 shadow-lg">
+      <div className="w-full max-w-lg rounded-xl bg-white p-10 shadow-lg">
         <h2 className="mb-1 text-xl font-semibold text-gray-900">채점 결과</h2>
         <p className="mb-4 text-sm text-gray-500">
           난이도: {difficultyLabel[difficulty]}
