@@ -19,13 +19,13 @@ export default function YoutubeVideoCard({
 }: YoutubeVideoCardProps) {
   return (
     <article
-      className={`bg-white px-15 py-8 ${isLast ? "" : "border-b border-gray-200"}`}
+      className={`bg-white px-10 py-5 ${isLast ? "" : "border-b border-gray-200"}`}
     >
       <a
         href={href}
         target="_blank"
         rel="noreferrer"
-        className="text-xl font-semibold text-gray-600 cursor-pointer hover:text-gray-900 hover:underline "
+        className="text-base font-semibold text-gray-600 cursor-pointer hover:text-gray-900 hover:underline "
       >
         {title}
       </a>
@@ -42,7 +42,7 @@ export default function YoutubeVideoCard({
         />
       </div>
 
-      <p className="mt-3 text-sm text-gray-500">{sourceLabel}</p>
+      <p className="mt-3 text-xs text-gray-500">{sourceLabel}</p>
     </article>
   );
 }

@@ -64,7 +64,7 @@ export default function PracticePage() {
   if (!currentPage) return null;
 
   return (
-    <div className="mx-auto h-full w-[1000px]">
+    <div className="mx-auto h-full w-[1200px]">
       <section className="flex w-full h-full min-w-0 flex-col overflow-hidden pr-5 pl-5 pb-5">
         <div className="flex items-center justify-between p-4">
           <div className="flex flex-row justify-start gap-5 w-[200px]">

@@ -6,7 +6,7 @@ type MoreLayoutProps = {
 
 export default function MoreLayout({ children }: MoreLayoutProps) {
   return (
-    <div className="mx-auto flex min-h-[calc(100vh-254px)] w-[1000px]">
+    <div className="mx-auto flex min-h-[calc(100vh-254px)] w-[1200px]">
       {/* 좌측 사이드 네비게이션 */}
       <aside className="flex flex-col items-center justify-start w-[200px] border-r border-gray-200">
         <nav className="text-xl w-full text-center">

@@ -36,8 +36,8 @@ const defaultRange: PageRangeSetting = {
 };
 
 const DEFAULT_FONT_SIZE = 20;
-const MIN_FONT_SIZE = 18;
-const MAX_FONT_SIZE = 22;
+const MIN_FONT_SIZE = 20;
+const MAX_FONT_SIZE = 27;
 const FONT_SIZE_STEP = 1;
 
 function clampPageRange(

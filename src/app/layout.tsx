@@ -35,7 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSerifKR.variable} antialiased`}
       >
-        <div className="flex min-h-screen flex-col min-w-[1000px]">
+        <div className="flex min-h-screen flex-col min-w-[1200px]">
           <header className="flex h-35 items-center border-b border-gray-200 px-6">
             <div className="mx-auto flex h-full items-center justify-center">
               <Link href="/">
