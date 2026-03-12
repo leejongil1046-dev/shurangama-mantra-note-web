@@ -24,7 +24,7 @@ export default function MemorizeActions({
     return (
       <div className="flex flex-row justify-start gap-3 w-[200px]">
         <button type="button" onClick={onStart} className={buttonClass}>
-          암기 시작
+          테스트 시작
         </button>
       </div>
     );
