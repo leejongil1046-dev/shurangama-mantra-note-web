@@ -1,6 +1,6 @@
 import { getFullText } from "@/lib/mantra-format";
 import type { Mantra } from "@/types/mantra";
-import type { BlankByPageState } from "@/store/memorize-store";
+import type { BlankByPageState } from "@/store/test-store";
 
 export type GradeResult = {
   perPage: Record<

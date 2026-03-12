@@ -4,7 +4,7 @@ import ModalActionButton from "@/component/ui/modal-action-button";
 
 export type ConfirmMode =
   | "reset-practice"
-  | "reset-memorize"
+  | "reset-test"
   | "grade-with-blanks";
 
 type ConfirmModalProps = {
@@ -23,10 +23,10 @@ const PRESET = {
     confirmLabel: "초기화",
     cancelLabel: "취소",
   },
-  "reset-memorize": {
-    title: "암기하기 상태를 초기화할까요?",
+  "reset-test": {
+    title: "테스트하기 상태를 초기화할까요?",
     description:
-      "현재 페이지 범위와 난이도는 유지한 채, 암기하기의 빈칸과 입력한 답을 모두 지우고 첫 페이지로 이동합니다.",
+      "현재 페이지 범위와 난이도는 유지한 채, 테스트하기의 빈칸과 입력한 답을 모두 지우고 첫 페이지로 이동합니다.",
     confirmLabel: "초기화",
     cancelLabel: "취소",
   },

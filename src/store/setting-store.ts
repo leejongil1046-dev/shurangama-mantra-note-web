@@ -11,7 +11,7 @@ export type PageRangeSetting = {
 
 type SettingState = {
   practice: PageRangeSetting;
-  memorize: PageRangeSetting;
+  test: PageRangeSetting;
   hasHydrated: boolean;
   setHasHydrated: (value: boolean) => void;
 
@@ -23,8 +23,8 @@ type SettingState = {
 
   setPracticePageRange: (start: number, end: number) => void;
   setPracticeDifficulty: (difficulty: Difficulty) => void;
-  setMemorizePageRange: (start: number, end: number) => void;
-  setMemorizeDifficulty: (difficulty: Difficulty) => void;
+  setTestPageRange: (start: number, end: number) => void;
+  setTestDifficulty: (difficulty: Difficulty) => void;
 };
 
 const TOTAL_PAGES = 12;
@@ -53,7 +53,7 @@ export const useSettingStore = create<SettingState>()(
   persist(
     (set) => ({
       practice: { ...defaultRange },
-      memorize: { ...defaultRange },
+      test: { ...defaultRange },
       hasHydrated: false,
       setHasHydrated: (value) => set({ hasHydrated: value }),
 
@@ -89,15 +89,15 @@ export const useSettingStore = create<SettingState>()(
           practice: { ...state.practice, difficulty },
         })),
 
-      setMemorizePageRange: (start, end) => {
+      setTestPageRange: (start, end) => {
         const { start: s, end: e } = clampPageRange(start, end);
         set((state) => ({
-          memorize: { ...state.memorize, pageStart: s, pageEnd: e },
+          test: { ...state.test, pageStart: s, pageEnd: e },
         }));
       },
-      setMemorizeDifficulty: (difficulty) =>
+      setTestDifficulty: (difficulty) =>
         set((state) => ({
-          memorize: { ...state.memorize, difficulty },
+          test: { ...state.test, difficulty },
         })),
     }),
     {

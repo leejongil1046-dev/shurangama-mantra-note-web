@@ -1,17 +1,16 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { GradeResult } from "@/lib/grade-memorize";
+import type { GradeResult } from "@/lib/grade-test";
 
 export type BlankByPageState = Record<number, number[]>;
 
 type AnswersByPageState = Record<number, Record<number, string>>;
 
-type MemorizeState = {
+type TestState = {
   isActive: boolean;
   blankByPage: BlankByPageState;
   answersByPage: AnswersByPageState;
   lastPageIndex: number;
-  /** 채점 결과. 있으면 본문은 정답 표시+색상, 버튼은 결과확인 */
   gradeResult: GradeResult | null;
   startSession: (params: {
     blankByPage: BlankByPageState;
@@ -23,7 +22,7 @@ type MemorizeState = {
   resetSession: () => void;
 };
 
-export const useMemorizeStore = create<MemorizeState>()(
+export const useTestStore = create<TestState>()(
   persist(
     (set) => ({
       isActive: false,
@@ -60,7 +59,7 @@ export const useMemorizeStore = create<MemorizeState>()(
         }),
     }),
     {
-      name: "memorize-store",
+      name: "test-store",
       storage: createJSONStorage(() => sessionStorage),
     },
   ),

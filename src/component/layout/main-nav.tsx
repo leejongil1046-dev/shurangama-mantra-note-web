@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 const NAV_ITEMS = [
   { href: "/", label: "시작하기", key: "home" },
   { href: "/practice", label: "연습하기", key: "practice" },
-  { href: "/memorize", label: "암기하기", key: "memorize" },
+  { href: "/test", label: "테스트하기", key: "test" },
   { href: "/more/video", label: "더보기", key: "more" },
 ] as const;
 
@@ -20,7 +20,7 @@ export default function MainNav() {
   const getActiveKey = () => {
     if (pathname === "/") return "home";
     if (pathname.startsWith("/practice")) return "practice";
-    if (pathname.startsWith("/memorize")) return "memorize";
+    if (pathname.startsWith("/test")) return "test";
     if (pathname.startsWith("/more/video")) return "more";
     return undefined;
   };

@@ -13,7 +13,7 @@ export type GradeDisplayEntry = {
 export type MantraTextViewProps = {
   mantra: Mantra;
   blankIndices?: Set<number>;
-  mode?: "practice" | "memorize";
+  mode?: "practice" | "test";
   answers?: Record<number, string>;
   onChangeAnswer?: (index: number, value: string) => void;
   gradeDisplay?: Record<number, GradeDisplayEntry>;
@@ -133,7 +133,7 @@ export default function MantraTextView({
     const { line, indent, startIndex } = lineInfo;
     const lineChars = line.split("");
     const paddingLeft = getIndentPx(indent, charBoxWidth);
-    const isMemorize = mode === "memorize";
+    const isTest = mode === "test";
 
     const elements = lineChars.map((char, i) => {
       const globalIndex = startIndex + i;
@@ -170,7 +170,7 @@ export default function MantraTextView({
           );
         }
 
-        if (isMemorize && onChangeAnswer) {
+        if (isTest && onChangeAnswer) {
           const value = answers?.[globalIndex] ?? "";
 
           return (

@@ -19,7 +19,7 @@ export default function TopSettingButton({
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
   const { increaseFontSize, decreaseFontSize } = useSettingStore();
   const confirmMode: ConfirmMode =
-    mode === "practice" ? "reset-practice" : "reset-memorize";
+    mode === "practice" ? "reset-practice" : "reset-test";
 
   const handleClickReset = () => {
     if (!onReset) return;

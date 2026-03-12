@@ -5,19 +5,19 @@ import MantraTextView from "@/component/mantra/mantra-text-view";
 import { SHURANGAMA_MANTRA_PAGES } from "@/data/shurangama-mantra";
 import { createBlankIndices, difficultyToRatio } from "@/lib/mantra-blank";
 import { usePagination } from "@/hooks/use-pagination";
-import { useMemorizeGrading } from "@/hooks/use-memorize-grading";
+import { useMemorizeGrading } from "@/hooks/use-test-grading";
 import { useSettingStore } from "@/store/setting-store";
-import { useMemorizeStore } from "@/store/memorize-store";
+import { useTestStore } from "@/store/test-store";
 import TopSettingButton from "@/component/layout/top-setting-button";
 import PaginationControls from "@/component/layout/pagination-controls";
 import PageRangeLegend from "@/component/settings/page-range-legend";
-import MemorizeActions from "@/component/memorize/memorize-actions";
+import TestActions from "@/component/test/test-actions";
 import ConfirmModal from "@/component/ui/confirm-modal";
-import GradeResultModal from "@/component/memorize/grade-result-modal";
+import GradeResultModal from "@/component/test/grade-result-modal";
 
-export default function MemorizePage() {
-  const { memorize, hasHydrated, fontSize } = useSettingStore();
-  const { pageStart, pageEnd, difficulty } = memorize;
+export default function TestPage() {
+  const { test, hasHydrated, fontSize } = useSettingStore();
+  const { pageStart, pageEnd, difficulty } = test;
   const ratio = difficultyToRatio[difficulty];
 
   const selectedPages = useMemo(
@@ -36,7 +36,7 @@ export default function MemorizePage() {
     setLastPageIndex,
     setGradeResult,
     resetSession,
-  } = useMemorizeStore();
+  } = useTestStore();
 
   const initialIndex = isActive
     ? Math.min(lastPageIndex, Math.max(selectedPages.length - 1, 0))
@@ -72,7 +72,7 @@ export default function MemorizePage() {
     [currentBlankIndicesArray],
   );
 
-  const handleStartMemorize = () => {
+  const handleStartTest = () => {
     const nextBlankByPage: Record<number, number[]> = {};
 
     selectedPages.forEach((page, index) => {
@@ -86,7 +86,7 @@ export default function MemorizePage() {
     });
   };
 
-  const handleResetMemorize = () => {
+  const handleResetTest = () => {
     resetSession();
     setCurrentIndex(0);
   };
@@ -123,11 +123,11 @@ export default function MemorizePage() {
     <div className="mx-auto h-full w-[1200px]">
       <section className="flex w-full h-full min-w-0 flex-col overflow-hidden pr-5 pl-5 pb-5">
         <div className="flex items-center justify-between p-4">
-          <MemorizeActions
+          <TestActions
             hasHydrated={hasHydrated}
             isActive={isActive}
             isGraded={!!gradeResult}
-            onStart={handleStartMemorize}
+            onStart={handleStartTest}
             onGrade={handleGradeClick}
           />
 
@@ -139,7 +139,7 @@ export default function MemorizePage() {
             onNext={goNext}
           />
 
-          <TopSettingButton mode="memorize" onReset={handleResetMemorize} />
+          <TopSettingButton mode="test" onReset={handleResetTest} />
 
           <ConfirmModal
             open={isGradeConfirmOpen}
@@ -174,7 +174,7 @@ export default function MemorizePage() {
                 <MantraTextView
                   mantra={currentPage.mantra}
                   blankIndices={currentBlankIndices}
-                  mode="memorize"
+                  mode="test"
                   answers={currentAnswers}
                   onChangeAnswer={gradeResult ? undefined : handleChangeAnswer}
                   gradeDisplay={gradeDisplay}

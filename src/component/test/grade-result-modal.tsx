@@ -1,8 +1,8 @@
 "use client";
 
 import ModalActionButton from "@/component/ui/modal-action-button";
-import { accuracy } from "@/lib/grade-memorize";
-import type { GradeResult } from "@/lib/grade-memorize";
+import { accuracy } from "@/lib/grade-test";
+import type { GradeResult } from "@/lib/grade-test";
 import type { Difficulty } from "@/store/setting-store";
 
 const difficultyLabel: Record<Difficulty, string> = {

@@ -4,10 +4,10 @@ import PageRangeSetting from "@/component/settings/page-range-setting";
 import DifficultySetting from "@/component/settings/difficulty-setting";
 import ModalActionButton from "@/component/ui/modal-action-button";
 import { useSettingStore, type Difficulty } from "@/store/setting-store";
-import { useMemorizeStore } from "@/store/memorize-store";
+import { useTestStore } from "@/store/test-store";
 import { useMemo, useState } from "react";
 
-export type SettingMode = "practice" | "memorize";
+export type SettingMode = "practice" | "test";
 
 type SettingModalProps = {
   open: boolean;
@@ -21,15 +21,15 @@ export default function SettingModal({
   mode,
 }: SettingModalProps) {
   const practice = useSettingStore((s) => s.practice);
-  const memorize = useSettingStore((s) => s.memorize);
-  const slice = mode === "practice" ? practice : memorize;
+  const test = useSettingStore((s) => s.test);
+  const slice = mode === "practice" ? practice : test;
   const { pageStart, pageEnd, difficulty } = slice;
 
   const setPracticePageRange = useSettingStore((s) => s.setPracticePageRange);
   const setPracticeDifficulty = useSettingStore((s) => s.setPracticeDifficulty);
-  const setMemorizePageRange = useSettingStore((s) => s.setMemorizePageRange);
-  const setMemorizeDifficulty = useSettingStore((s) => s.setMemorizeDifficulty);
-  const resetMemorizeSession = useMemorizeStore((s) => s.resetSession);
+  const setTestPageRange = useSettingStore((s) => s.setTestPageRange);
+  const setTestDifficulty = useSettingStore((s) => s.setTestDifficulty);
+  const resetTestSession = useTestStore((s) => s.resetSession);
 
   const [tempRange, setTempRange] = useState<[number, number]>([
     pageStart,
@@ -54,9 +54,9 @@ export default function SettingModal({
       setPracticePageRange(start, end);
       setPracticeDifficulty(tempDifficulty);
     } else {
-      setMemorizePageRange(start, end);
-      setMemorizeDifficulty(tempDifficulty);
-      resetMemorizeSession();
+      setTestPageRange(start, end);
+      setTestDifficulty(tempDifficulty);
+      resetTestSession();
     }
     window.location.reload();
   };
@@ -66,7 +66,7 @@ export default function SettingModal({
       <div className="w-full max-w-[800px] rounded-xl bg-white p-4 shadow-lg">
         <div className="flex items-center justify-between p-6">
           <h1 className="text-xl font-semibold">
-            설정 {mode === "practice" ? "(연습하기)" : "(암기하기)"}
+            설정 {mode === "practice" ? "(연습하기)" : "(테스트하기)"}
           </h1>
         </div>
 

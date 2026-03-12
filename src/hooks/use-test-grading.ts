@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { computeGradeResult } from "@/lib/grade-memorize";
-import type { GradeResult } from "@/lib/grade-memorize";
+import { computeGradeResult } from "@/lib/grade-test";
+import type { GradeResult } from "@/lib/grade-test";
 import { getFullText } from "@/lib/mantra-format";
-import type { BlankByPageState } from "@/store/memorize-store";
+import type { BlankByPageState } from "@/store/test-store";
 import type { MantraPageItem } from "@/types/mantra";
 
 type AnswersByPage = Record<number, Record<number, string>>;
