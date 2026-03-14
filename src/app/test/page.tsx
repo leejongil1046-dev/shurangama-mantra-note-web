@@ -6,6 +6,10 @@ import { SHURANGAMA_MANTRA_PAGES } from "@/data/shurangama-mantra";
 import { createBlankIndices, difficultyToRatio } from "@/lib/mantra-blank";
 import { usePagination } from "@/hooks/use-pagination";
 import { useTestGrading } from "@/hooks/use-test-grading";
+import {
+  focusFirstBlankInContainer,
+  focusLastBlankInContainer,
+} from "@/lib/blank-focus";
 import { useSettingStore } from "@/store/setting-store";
 import { useTestStore } from "@/store/test-store";
 import TopSettingButton from "@/component/layout/top-setting-button";
@@ -96,26 +100,19 @@ export default function TestPage() {
   const handleEnterAtLastBlank = () => {
     if (isLast) return;
     goNext();
-    setTimeout(() => {
-      mantraContainerRef.current
-        ?.querySelector<HTMLInputElement>("input[data-blank-global-index]")
-        ?.focus();
-    }, 0);
+    setTimeout(
+      () => focusFirstBlankInContainer(mantraContainerRef.current),
+      0,
+    );
   };
 
   const handleBackspaceAtFirstBlank = () => {
     if (isFirst) return;
     goPrev();
-    setTimeout(() => {
-      const inputs = mantraContainerRef.current?.querySelectorAll<HTMLInputElement>(
-        "input[data-blank-global-index]",
-      );
-      const lastInput = inputs?.item(inputs.length - 1);
-      if (lastInput) {
-        lastInput.focus();
-        lastInput.setSelectionRange(lastInput.value.length, lastInput.value.length);
-      }
-    }, 0);
+    setTimeout(
+      () => focusLastBlankInContainer(mantraContainerRef.current),
+      0,
+    );
   };
 
   const {
