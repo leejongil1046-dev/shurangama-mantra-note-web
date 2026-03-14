@@ -14,7 +14,7 @@ import { useSettingStore } from "@/store/setting-store";
 import { useTestStore } from "@/store/test-store";
 import TopSettingButton from "@/component/layout/top-setting-button";
 import PaginationControls from "@/component/layout/pagination-controls";
-import PageRangeLegend from "@/component/settings/page-range-legend";
+import PageRangeLegend from "@/component/layout/page-range-legend";
 import TestActions from "@/component/test/test-actions";
 import ConfirmModal from "@/component/ui/confirm-modal";
 import GradeResultModal from "@/component/test/grade-result-modal";

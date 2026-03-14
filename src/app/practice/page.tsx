@@ -5,7 +5,7 @@ import MantraTextView from "@/component/mantra/mantra-text-view";
 import ToggleSwitch from "@/component/layout/toggle-switch";
 import PaginationControls from "@/component/layout/pagination-controls";
 import TopSettingButton from "@/component/layout/top-setting-button";
-import PageRangeLegend from "@/component/settings/page-range-legend";
+import PageRangeLegend from "@/component/layout/page-range-legend";
 import { SHURANGAMA_MANTRA_PAGES } from "@/data/shurangama-mantra";
 import { createBlankIndices, difficultyToRatio } from "@/lib/mantra-blank";
 import { usePagination } from "@/hooks/use-pagination";
