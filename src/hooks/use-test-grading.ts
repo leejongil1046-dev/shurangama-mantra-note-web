@@ -64,19 +64,9 @@ export function useTestGrading({
   };
 
   const gradeDisplay = useMemo(() => {
-    if (!gradeResult || !currentPage) return undefined;
-    const fullText = getFullText(currentPage.mantra);
-    const byBlank = gradeResult.correctByBlank[currentPageIndex];
-    if (!byBlank) return undefined;
-    const out: Record<number, { correctChar: string; isCorrect: boolean }> = {};
-    for (const charIndex of Object.keys(byBlank).map(Number)) {
-      out[charIndex] = {
-        correctChar: fullText[charIndex] ?? "",
-        isCorrect: byBlank[charIndex],
-      };
-    }
-    return out;
-  }, [gradeResult, currentPage, currentPageIndex]);
+    if (!gradeResult) return undefined;
+    return gradeResult.correctByBlank[currentPageIndex];
+  }, [gradeResult, currentPageIndex]);
 
   return {
     totalBlanks,

@@ -5,16 +5,20 @@ type TestActionsProps = {
   hasHydrated: boolean;
   isActive: boolean;
   isGraded?: boolean;
+  showWrongInputs?: boolean;
   onStart: () => void;
   onGrade?: () => void;
+  onShowWrongInputs?: () => void;
 };
 
 export default function TestActions({
   hasHydrated,
   isActive,
   isGraded = false,
+  showWrongInputs = false,
   onStart,
   onGrade,
+  onShowWrongInputs,
 }: TestActionsProps) {
   if (!hasHydrated)
     return <div className="flex flex-row justify-start gap-3 w-[250px]" />;
@@ -42,11 +46,10 @@ export default function TestActions({
       {isGraded && (
         <button
           type="button"
-          onClick={onGrade}
-          disabled={!onGrade}
+          onClick={onShowWrongInputs}
           className={buttonClass}
         >
-          {isGraded ? "오답확인" : "정답확인"}
+          {showWrongInputs ? "정답확인" : "오답확인"}
         </button>)}
     </div>
   );

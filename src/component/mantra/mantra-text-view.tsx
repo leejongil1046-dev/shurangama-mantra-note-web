@@ -4,11 +4,7 @@ import type React from "react";
 import { getIndentPx, getLinesForRender } from "@/lib/mantra-format";
 import type { Mantra, RenderLineInfo } from "@/types/mantra";
 import { useBlankInputKeys } from "@/hooks/use-blank-input-keys";
-
-export type GradeDisplayEntry = {
-  correctChar: string;
-  isCorrect: boolean;
-};
+import { BlankGrade } from "@/lib/grade-test";
 
 export type MantraTextViewProps = {
   mantra: Mantra;
@@ -16,7 +12,8 @@ export type MantraTextViewProps = {
   mode?: "practice" | "test";
   answers?: Record<number, string>;
   onChangeAnswer?: (index: number, value: string) => void;
-  gradeDisplay?: Record<number, GradeDisplayEntry>;
+  gradeDisplay?: Record<number, BlankGrade>;
+  showWrongInputs?: boolean;
   fontSize?: number;
   blankOrder?: number[];
   containerRef?: React.RefObject<HTMLDivElement | null>;
@@ -45,6 +42,7 @@ export default function MantraTextView({
   answers,
   onChangeAnswer,
   gradeDisplay,
+  showWrongInputs = false,
   fontSize = DEFAULT_FONT_SIZE,
   blankOrder,
   containerRef,
@@ -77,33 +75,47 @@ export default function MantraTextView({
       if (blankIndices.has(globalIndex)) {
         if (gradeDisplay?.[globalIndex]) {
           const graded = gradeDisplay[globalIndex];
+          const isWrong = !graded.correct;
+          const showMyWrong =
+            isWrong &&
+            showWrongInputs &&
+            graded.wrongChar.trim() !== "";
+          const displayChar = graded.correct
+            ? graded.char
+            : showMyWrong
+              ? graded.wrongChar
+              : graded.correctChar;
 
-          return (
-            <div
-              key={globalIndex}
-              className="flex items-center justify-center text-center font-mantra font-semibold"
-              style={{
-                width: charBoxWidth,
-                height: charBoxHeight,
-                border: "1px solid #999",
-                borderRadius: 5,
-                boxSizing: "border-box",
-                backgroundColor: "#f8f8f8",
-                fontSize,
-                color: graded.isCorrect ? "#2563eb" : "#dc2626",
-              }}
-            >
-              <span
-                className="relative block leading-none"
-                style={{
-                  fontSize,
-                  top: "-1px",
-                }}
-              >
-                {graded.correctChar}
-              </span>
-            </div>
-          );
+              return (
+                <div
+                  key={globalIndex}
+                  className="flex items-center justify-center text-center font-mantra font-semibold"
+                  style={{
+                    width: charBoxWidth,
+                    height: charBoxHeight,
+                    border: "1px solid #999",
+                    borderRadius: 5,
+                    boxSizing: "border-box",
+                    backgroundColor: "#f8f8f8",
+                    fontSize,
+                    color: graded.correct
+                      ? "#2563eb"
+                      : showMyWrong
+                        ? "#171717"
+                        : "#dc2626",
+                  }}
+                >
+                  <span
+                    className="relative block leading-none"
+                    style={{
+                      fontSize,
+                      top: "-1px",
+                    }}
+                  >
+                    {displayChar}
+                  </span>
+                </div>
+              );
         }
 
         if (isTest && onChangeAnswer) {
@@ -127,6 +139,7 @@ export default function MantraTextView({
                 borderRadius: 5,
                 boxSizing: "border-box",
                 backgroundColor: "#f8f8f8",
+                color: "#171717",
                 fontSize,
               }}
             />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import MantraTextView from "@/component/mantra/mantra-text-view";
 import { SHURANGAMA_MANTRA_PAGES } from "@/data/shurangama-mantra";
 import { createBlankIndices, difficultyToRatio } from "@/lib/mantra-blank";
@@ -23,6 +23,10 @@ export default function TestPage() {
   const { test, hasHydrated, fontSize } = useSettingStore();
   const { pageStart, pageEnd, difficulty } = test;
   const ratio = difficultyToRatio[difficulty];
+  const [showWrongInputs, setShowWrongInputs] = useState(false);
+  const handleShowWrongInputs = () => {
+    setShowWrongInputs(!showWrongInputs);
+  };
 
   const selectedPages = useMemo(
     () => SHURANGAMA_MANTRA_PAGES.slice(pageStart - 1, pageEnd),
@@ -151,8 +155,10 @@ export default function TestPage() {
             hasHydrated={hasHydrated}
             isActive={isActive}
             isGraded={!!gradeResult}
+            showWrongInputs={showWrongInputs}
             onStart={handleStartTest}
             onGrade={handleGradeClick}
+            onShowWrongInputs={handleShowWrongInputs}
           />
 
           <PaginationControls
@@ -202,6 +208,7 @@ export default function TestPage() {
                   answers={currentAnswers}
                   onChangeAnswer={gradeResult ? undefined : handleChangeAnswer}
                   gradeDisplay={gradeDisplay}
+                  showWrongInputs={showWrongInputs}
                   fontSize={fontSize}
                   blankOrder={sortedBlankIndices}
                   containerRef={mantraContainerRef}
